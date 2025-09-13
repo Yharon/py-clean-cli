@@ -6,7 +6,7 @@
       "type": "debugpy",
       "request": "launch",
       "module": "poethepoet",
-      "args": ["cli", "list"],
+      "args": ["cli"],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
       "env": {

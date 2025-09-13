@@ -31,9 +31,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/seu-usuario/py_clean_cli"
-Repository = "https://github.com/seu-usuario/py_clean_cli"
-Documentation = "https://github.com/seu-usuario/py_clean_cli/docs#readme"
+Homepage = "https://github.com/Yharon/py-clean-cli"
+Repository = "https://github.com/Yharon/py-clean-cli"
+Documentation = "https://github.com/Yharon/py-clean-cli/docs#readme"
 
 [tool.setuptools.packages.find]
 where = ["src"]

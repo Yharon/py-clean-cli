@@ -1,4 +1,4 @@
-from .factories.commands_factory import CommandsFactory
+from .managers.commands_manager import CommandsManager
 
 
-__all__ = ["CommandsFactory"]
+__all__ = ["CommandsManager"]

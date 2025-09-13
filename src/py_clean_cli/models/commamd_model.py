@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import ClassVar
 
-from simple_parsing import choice, field
+from simple_parsing import field
 
 
 @dataclass
@@ -65,3 +65,9 @@ class CommandArgsModel(CommandArgsAbstract):
 
     command_name: ClassVar[str] = ""
     command_help: ClassVar[str] = ""
+
+    def exec(self) -> None:
+        """
+        Execute the command logic.
+        """
+        raise NotImplementedError("Subclasses must implement the `exec()` method.")

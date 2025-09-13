@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
--
+- Added validation to check if the provided package path is a valid Python package with __init__.py file
 
 ### Fixed
 

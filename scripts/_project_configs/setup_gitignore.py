@@ -8,12 +8,11 @@ Sets up a standardized .gitignore in .config folder:
 """
 from pathlib import Path
 from sys import path as sys_path
-from logging import getLogger
 from dataclasses import dataclass, field
 from subprocess import run as subprocess_run
 from typing import Iterator, Any, Optional, Self
 from textwrap import dedent
-
+from logging import DEBUG
 
 PROJECT_ROOT = str(Path.cwd())
 if PROJECT_ROOT not in sys_path:
@@ -23,8 +22,10 @@ if PROJECT_ROOT not in sys_path:
 from simple_parsing import field
 
 from py_clean_cli import command, CommandArgsModel
+from scripts import LOGGER_CLI
 
-LOGGER = getLogger(__name__)
+logging = LOGGER_CLI
+
 
 GITIGNORE_TEMPLATE = dedent("""
     # environment variables
@@ -78,30 +79,30 @@ class GitignoreSetup:
 
     def remove_old_gitignore(self):
         if self._old_gitignore_path.exists():
-            LOGGER.debug(f"Removing existing {self.old_gitignore} file")
+            LOGGER_CLI.debug(f"Removing existing {self.old_gitignore} file")
             self._old_gitignore_path.unlink()
             return f"Removed {self.old_gitignore}"
         return f"{self.old_gitignore} not found, skipping removal"
 
     def create_config_dir(self):
         if not self._config_dir_path.exists():
-            LOGGER.debug(f"Creating directory {self._config_dir_path}")
+            LOGGER_CLI.debug(f"Creating directory {self._config_dir_path}")
             self._config_dir_path.mkdir(exist_ok=True)
             return f"Created directory {self._config_dir_path}"
         return f"Directory {self._config_dir_path} already exists"
 
     def create_or_update_gitignore(self) -> str:
         if self._new_gitignore_path.exists():
-            LOGGER.debug(f"Using existing {self._new_gitignore_path}")
+            LOGGER_CLI.debug(f"Using existing {self._new_gitignore_path}")
             return f"Using existing {self._new_gitignore_path}"
         else:
-            LOGGER.debug(f"Creating new {self._new_gitignore_path}")
+            LOGGER_CLI.debug(f"Creating new {self._new_gitignore_path}")
             with open(self._new_gitignore_path, "w") as f:
                 f.write(GITIGNORE_TEMPLATE)
             return f"Created new {self._new_gitignore_path}"
 
     def update_git_config(self) -> str:
-        LOGGER.debug("Updating git configuration to use .config/.gitignore")
+        LOGGER_CLI.debug("Updating git configuration to use .config/.gitignore")
         subprocess_run(["git", "config", "core.excludesFile", ".config/.gitignore"], check=True)
         return "Git is now configured to use .config/.gitignore"
 
@@ -150,14 +151,6 @@ class GitignoreSetup:
                     yield f"Error in {attr_name}: {str(e)}"
 
 
-def main():
-    setup = GitignoreSetup()
-    for result in GitignoreSetup.auto_execute_all_methods(setup):
-        LOGGER.debug(result)
-
-    LOGGER.info("Done! Git is now configured to use .config/.gitignore")
-
-
 @command(name="gitignore", help_text="Setup .gitignore in .config directory")
 @dataclass
 class SetupGitignoreCommand(CommandArgsModel):
@@ -175,8 +168,10 @@ class SetupGitignoreCommand(CommandArgsModel):
         """
         Execute the gitignore setup command.
         """
+        if self.verbose:
+            LOGGER_CLI.setLevel(DEBUG)
         setup = GitignoreSetup(self.config_dir)
         for result in GitignoreSetup.auto_execute_all_methods(setup):
-            LOGGER.debug(result)
+            LOGGER_CLI.debug(result)
 
-        LOGGER.info("Done! Git is now configured to use .config/.gitignore")
+        LOGGER_CLI.info("Done! Git is now configured to use .config/.gitignore")
