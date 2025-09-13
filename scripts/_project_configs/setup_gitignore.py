@@ -53,6 +53,7 @@ GITIGNORE_TEMPLATE = dedent("""# Python
 
     # Mock files
     docs/.mocks/
+
 """)
 
 
