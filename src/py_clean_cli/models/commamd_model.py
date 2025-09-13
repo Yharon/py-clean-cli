@@ -21,18 +21,19 @@ class CommandArgsAbstract(ABC):
 
     verbose: bool = field(
         default=False,
-        help="Enable verbose output logging.",
         alias=["-v"],
+        help="Enable verbose output logging."
     )
     log_error: bool = field(
-        default=False, 
-        help="Enable error logging.", 
-        alias=["-le"]
+        default=False,
+        alias=["-le"],
+        help="Enable error logging."
     )
     log_level: str = field(
         default="INFO", 
         metadata={"choices": ["DEBUG", "INFO"]}, 
-        alias=["-ll"]
+        alias=["-ll"],
+        help="Set the logging level (DEBUG or INFO)."
     )
 
     @abstractmethod

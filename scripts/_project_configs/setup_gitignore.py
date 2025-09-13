@@ -19,9 +19,14 @@ PROJECT_ROOT = str(Path.cwd())
 if PROJECT_ROOT not in sys_path:
     sys_path.insert(0, PROJECT_ROOT)
 
+
+from simple_parsing import field
+
+from py_clean_cli import command, CommandArgsModel
+
 LOGGER = getLogger(__name__)
 
-GITIGNORE_TEMPLATE = dedent("""# Python
+GITIGNORE_TEMPLATE = dedent("""
     # environment variables
     .env
     env
@@ -62,21 +67,21 @@ class GitignoreSetup:
     """
     Class to setup .gitignore in .config directory
     """
-    _config_dir: str = field(default=".config", init=True)
-    _old_gitignore: str = field(default=".gitignore", init=True)
+    config_dir: str = field(default=".config", init=True)
+    old_gitignore: str = field(default=".gitignore", init=True)
     _new_gitignore: str = field(init=False)
 
     def __post_init__(self):
-        self._old_gitignore_path = Path(PROJECT_ROOT) / self._old_gitignore
-        self._config_dir_path = Path(PROJECT_ROOT) / self._config_dir
+        self._old_gitignore_path = Path(PROJECT_ROOT) / self.old_gitignore
+        self._config_dir_path = Path(PROJECT_ROOT) / self.config_dir
         self._new_gitignore_path = self._config_dir_path / ".gitignore"
 
     def remove_old_gitignore(self):
         if self._old_gitignore_path.exists():
-            LOGGER.debug(f"Removing existing {self._old_gitignore} file")
+            LOGGER.debug(f"Removing existing {self.old_gitignore} file")
             self._old_gitignore_path.unlink()
-            return f"Removed {self._old_gitignore}"
-        return f"{self._old_gitignore} not found, skipping removal"
+            return f"Removed {self.old_gitignore}"
+        return f"{self.old_gitignore} not found, skipping removal"
 
     def create_config_dir(self):
         if not self._config_dir_path.exists():
@@ -153,5 +158,25 @@ def main():
     LOGGER.info("Done! Git is now configured to use .config/.gitignore")
 
 
-if __name__ == "__main__":
-    main()
+@command(name="gitignore", help_text="Setup .gitignore in .config directory")
+@dataclass
+class SetupGitignoreCommand(CommandArgsModel):
+    """
+    Command to setup .gitignore in .config directory
+    """
+
+    config_dir: str = field(
+        default=".config",
+        help="Directory to store the .gitignore file",
+        alias=["-c"],
+    )
+
+    def exec(self) -> None:
+        """
+        Execute the gitignore setup command.
+        """
+        setup = GitignoreSetup(self.config_dir)
+        for result in GitignoreSetup.auto_execute_all_methods(setup):
+            LOGGER.debug(result)
+
+        LOGGER.info("Done! Git is now configured to use .config/.gitignore")

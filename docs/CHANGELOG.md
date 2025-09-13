@@ -25,10 +25,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Translated all Portuguese content in `commands_factory.py` to English including docstrings, comments, print messages, and error messages
 - Enhanced documentation with detailed Google Style docstrings including Args, Returns, and Raises sections
 - Improved code consistency by following English-only coding standards
-
-### Changed
-
--
+- Implemented singleton pattern in `CommandRegistryHelper` using `__new__` method
+- Added `get_instance()` class method for obtaining singleton registry instance
+- Enhanced documentation with detailed docstrings explaining singleton behavior
+- Maintained backward compatibility with global `COMMAND_REGISTRY` variable
 
 ### Fixed
 

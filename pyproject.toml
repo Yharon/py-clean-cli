@@ -25,7 +25,7 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = [
-  "simple_parsing>=0.1.7",
+  "simple-parsing>=0.1.7",
   "poethepoet>=0.24.0",
   "black>=23.0.0",
 ]
@@ -45,7 +45,3 @@ version = {attr = "py_clean_cli.__version__"}
 [tool.poe.tasks]
 # poe cli
 cli.script = "scripts"
-# Change gitignore path in project
-change_path_gitignore = "git config core.excludesFile .config/.gitignore"
-# Setup standardized gitignore structure
-setup_gitignore = { script = "scripts.setup_gitignore:main" }

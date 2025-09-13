@@ -5,7 +5,7 @@ from py_clean_cli.services import CommandsFactory
 
 
 def main():
-    discover_commands('scripts')
+    discover_commands("scripts")
 
     parser = ArgumentParser()
     factory = CommandsFactory.get_instance(parser)
