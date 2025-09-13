@@ -1,0 +1,78 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "🎯 POE CLI",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "poethepoet",
+      "args": ["cli", "list"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src",
+        "PYTHONIOENCODING": "UTF-8"
+      }
+    },
+    {
+      "name": "🔧 Direct CLI (main.py)",
+      "type": "debugpy", 
+      "request": "launch",
+      "program": "${workspaceFolder}/src/py_clean_cli/main.py",
+      "args": ["list"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src",
+        "PYTHONIOENCODING": "UTF-8"
+      }
+    },
+    {
+      "name": "🐍 Python Module CLI",
+      "type": "debugpy",
+      "request": "launch", 
+      "module": "py_clean_cli",
+      "args": ["list"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src",
+        "PYTHONIOENCODING": "UTF-8"
+      }
+    },
+    {
+      "name": "🧪 Test Commands - Database",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "poethepoet", 
+      "args": [
+        "cli", 
+        "database_test", 
+        "--connection-string", 
+        "postgresql://localhost", 
+        "--table-name", 
+        "users",
+        "--dry-run"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src",
+        "PYTHONIOENCODING": "UTF-8"
+      }
+    },
+    {
+      "name": "🔍 Debug with Verbose",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "poethepoet",
+      "args": ["cli", "--verbose"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src",
+        "PYTHONIOENCODING": "UTF-8"
+      }
+    }
+  ]
+}

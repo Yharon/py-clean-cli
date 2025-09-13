@@ -1,0 +1,31 @@
+# environment variables
+.env
+env
+.configs/.env
+
+# .vscode settings
+.vscode/settings.json
+
+# ChromaDB local database and files
+.configs/memorys_ia_db/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyd
+
+# Distribution / packaging
+env/
+build/
+dist/
+
+# Installer logs
+logs/
+develop-eggs/
+.eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Mock files
+docs/.mocks/

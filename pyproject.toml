@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "py-clean-cli"
+dynamic = ["version"]
+description = "Clean CLI library with automatic argument parsing from dataclass models"
+readme = ".docs/README.md"
+requires-python = ">=3.12"
+license = {text = "MIT"}
+authors = [
+  {name = "Yharon Batista", email = "core@ia-rom.com"}
+]
+keywords = ["cli", "argparse", "dataclass", "command-line", "tool", "automation"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "simple_parsing>=0.1.7",
+  "poethepoet>=0.24.0",
+  "black>=23.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/seu-usuario/py_clean_cli"
+Repository = "https://github.com/seu-usuario/py_clean_cli"
+Documentation = "https://github.com/seu-usuario/py_clean_cli/docs#readme"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["py_clean_cli*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "py_clean_cli.__version__"}
+
+[tool.poe.tasks]
+# poe cli
+cli.script = "scripts"
+# Change gitignore path in project
+change_path_gitignore = "git config core.excludesFile .config/.gitignore"
+# Setup standardized gitignore structure
+setup_gitignore = { script = "scripts.setup_gitignore:main" }
