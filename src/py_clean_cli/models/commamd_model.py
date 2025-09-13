@@ -5,7 +5,7 @@ from typing import ClassVar
 from simple_parsing import field
 
 
-@dataclass
+@dataclass(kw_only=True)
 class CommandArgsAbstract(ABC):
     """
     Abstract base class for command arguments.
