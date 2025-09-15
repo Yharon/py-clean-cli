@@ -14,29 +14,65 @@ Quick start
 
 1. Run the hello example:
 
+Badges
+
+- CI: [placeholder]
+- PyPI: [placeholder]
+
+Overview
+
+py-clean-cli provides a simple structure to create Python CLIs using decorators to register commands and dataclass-based argument models. The library favors clear documentation and example-driven usage.
+
+Key features
+
+- Decorator-based command registration (`@command`).
+- Dataclass models for command arguments (`CommandArgsModel`) with `simple_parsing` support.
+- Helpers for discovery and registration of commands across a package.
+- Singleton `CommandRegistryHelper` with backward-compatible global `COMMAND_REGISTRY`.
+- Runnable examples included in `scripts/examples/`.
+
+Installation
+
+This project is provided as source. To install in editable mode (dev):
+
 ```powershell
-python -m scripts.examples.use_commands hello --name "World"
+python -m venv .venv; .\.venv\Scripts\Activate.ps1; pip install -e .
 ```
 
-1. Run a user create dry-run:
+Usage
+
+Run the packaged examples module to explore available commands:
+
+```powershell
+python -m scripts.examples.use_commands --help
+```
+
+Examples
+
+- Greet someone:
+
+```powershell
+python -m scripts.examples.use_commands hello --name "World" --greet "Hi" --upper
+```
+
+- User create (dry-run):
 
 ```powershell
 python -m scripts.examples.use_commands user create --email "test@example.com" --username "testuser" --dry_run
 ```
 
-1. Package CLI entrypoint:
+Contributing
 
-- Use `package_cli()` from the library or the project's entrypoint module to expose the CLI for distribution.
+Contributions are welcome. Suggested workflow:
 
-
-Where to look next
-
-- `docs/CHANGELOG.md` — changelog and release history.
-- `scripts/examples/` — runnable examples to test and explore features.
-- `src/py_clean_cli/` — core implementation: decorators, helpers, models and services.
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feat/your-feature`.
+3. Run tests and linters (if any) and open a PR describing your changes.
 
 License
 
-- See `docs/LICENSE` for license terms.
+See `docs/LICENSE` for license details.
 
-If you'd like a longer README (badges, CI, contribution guidelines), tell me what to include and I will expand it.
+Contact
+
+For questions or support, open an issue in the project repository or contact the maintainer.
