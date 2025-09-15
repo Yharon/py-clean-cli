@@ -21,7 +21,6 @@ class CommandArgsAbstract(ABC):
 
     verbose: bool = field(
         default=False,
-        alias=["-v"],
         help="Enable verbose output logging."
     )
     log_error: bool = field(

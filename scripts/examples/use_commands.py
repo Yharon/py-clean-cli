@@ -11,15 +11,13 @@ Usage:
 """
 
 from dataclasses import dataclass
-from logging import getLogger
 from typing import Optional
 
 from simple_parsing import field
 
 from py_clean_cli import command, CommandArgsModel
 
-# Initialize module logger
-LOGGER = getLogger(__name__)
+from scripts import LOGGER
 
 
 # Example 1: Simple Hello World Command
@@ -54,6 +52,9 @@ class HelloCommand(CommandArgsModel):
         """
         message = f"{self.greeting}, {self.name}!"
 
+        # if self.log_level == "DEBUG":
+        #     LOGGER_CLI.setLevel(DEBUG)
+
         if self.uppercase:
             message = message.upper()
 
@@ -64,8 +65,7 @@ class HelloCommand(CommandArgsModel):
 
         print(message)
 
-        if self.log_level == "DEBUG":
-            LOGGER.debug("Hello command execution completed successfully")
+        LOGGER.debug("Hello command execution completed successfully")
 
 
 # Example 2: User Management Command

@@ -1,6 +1,7 @@
 from pathlib import Path
+from sys import argv as sys_argv
 from typing import Optional
-from logging import getLogger
+from logging import getLogger, DEBUG, Logger
 from inspect import getmodule, getfile, stack
 
 from simple_parsing import ArgumentParser
@@ -9,10 +10,7 @@ from py_clean_cli.helpers import discover_commands
 from py_clean_cli.services import CommandsManager
 
 
-LOGGER = getLogger(__name__)
-
-
-def package_cli(package_path: Optional[str] = None):
+def package_cli(package_path: Optional[str] = None, logger: Optional[Logger] = None) -> None:
     """
     Set up the CLI for the package.
 
@@ -23,43 +21,45 @@ def package_cli(package_path: Optional[str] = None):
     Raises:
         ValueError: If the package path cannot be determined or is not a valid directory.
     """
+    if logger is None:
+        logger = getLogger(__name__)
+
+    if '--verbose' in sys_argv:
+        logger.setLevel(DEBUG)
+        logger.debug("`--verbose` mode enabled. Log level set to DEBUG.")
+
     if package_path is None:
         # Get the frame of the caller (1 level up in the stack)
         caller_frame = stack()[1]
         caller_module = getmodule(caller_frame[0])
+        if caller_module is None:
+            raise ValueError("Could not determine the caller module.")
+        module_file = getfile(caller_module)
+        package_path = str(Path(module_file).parent)
 
-        if caller_module is not None:
-            module_file = getfile(caller_module)
-            package_path = str(Path(module_file).parent)
+    if not Path(package_path).is_dir():
+        raise ValueError(f"The provided package_path '{package_path}' is not a valid directory.")
 
-            # Log information about the caller
-            module_name = caller_module.__name__
-            LOGGER.debug(f"Called from module: {module_name}")
-            LOGGER.debug(f"Module file path: {module_file}")
-            LOGGER.debug(f"Using package path: {package_path}")
-
-    # Validate if the path is a directory
-    if package_path is None or not Path(package_path).is_dir():
-        raise ValueError(
-            f"The provided package_path '{package_path}' is not a valid directory."
-        )
+    # Log information about the package
+    module_name = Path(package_path).name
+    logger.debug(f"Called from module: {module_name}")
+    logger.debug(f"Module file path: {package_path}")
 
     # Check if it's a valid Python package (has __init__.py)
     init_file = Path(package_path) / "__init__.py"
     if not init_file.exists():
-        LOGGER.warning(
+        logger.warning(
             f"The directory '{package_path}' does not contain __init__.py file. "
             "It may not be a valid Python package."
         )
     else:
-        LOGGER.debug(
+        logger.debug(
             f"Confirmed: '{package_path}' is a valid Python package with __init__.py file."
         )
 
     discover_commands(package_path)
+    parser = ArgumentParser(prog=module_name)
+    manager = CommandsManager.get_instance(parser)
 
-    parser = ArgumentParser()
-    factory = CommandsManager.get_instance(parser)
-
-    factory.register_all_commands()
-    factory.parse_and_execute()
+    manager.register_all_commands()
+    manager.parse_and_execute()

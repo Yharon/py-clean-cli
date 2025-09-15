@@ -41,18 +41,16 @@
       }
     },
     {
-      "name": "🧪 Test Commands - Database",
+      "name": "🧪 Test Commands - Hello",
       "type": "debugpy",
       "request": "launch",
       "module": "poethepoet", 
       "args": [
         "cli", 
-        "database_test", 
-        "--connection-string", 
-        "postgresql://localhost", 
-        "--table-name", 
-        "users",
-        "--dry-run"
+        "hello", 
+        "--name", 
+        "Teste",
+        "--verbose",
       ],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",

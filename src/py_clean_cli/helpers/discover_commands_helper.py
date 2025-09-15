@@ -24,7 +24,7 @@ def discover_commands(package_path: str) -> None:
     Args:
         package_path (str): Path to the package directory containing commands.
     """
-    LOGGER.info(f"Discovering commands in package: {package_path}")
+    LOGGER.debug(f"Discovering commands in package: {package_path}")
     python_files = _find_python_files(package_path)
 
     for file in python_files:

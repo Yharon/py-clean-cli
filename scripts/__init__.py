@@ -1,12 +1,11 @@
-from logging import basicConfig, INFO, getLogger
+from logging import getLogger, basicConfig, INFO, DEBUG
 
 basicConfig(
     level=INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s: %(message)s",
+    format="%(asctime)s - %(name)s - %(levelname)s:\n * %(message)s\n",
     datefmt="%H:%M:%S",
 )
 
-LOGGER_CLI = getLogger("py_clean_cli")
 
-
-__all__ = ["LOGGER_CLI"]
+LOGGER = getLogger(__name__)
+__all__ = ["LOGGER"]

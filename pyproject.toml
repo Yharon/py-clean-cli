@@ -21,12 +21,14 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
 ]
 
-dependencies = []
+dependencies = [
+  "tomli>=2.2.1",
+  "simple-parsing>=0.1.7",
+  "poethepoet>=0.24.0",
+]
 
 [project.optional-dependencies]
 dev = [
-  "simple-parsing>=0.1.7",
-  "poethepoet>=0.24.0",
   "black>=23.0.0",
 ]
 

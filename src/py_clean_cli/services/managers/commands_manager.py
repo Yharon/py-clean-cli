@@ -161,6 +161,7 @@ class CommandsManager:
         """
         try:
             args = self.parser.parse_args()
+
             command_name = args.command
             LOGGER.debug(f"Executing command: {command_name}")
 
