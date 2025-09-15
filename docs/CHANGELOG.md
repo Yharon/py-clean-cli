@@ -14,27 +14,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Added validation to check if the provided package path is a valid Python package with __init__.py file
-
-### Fixed
-
--
+- Finalized project documentation and examples, including `scripts/examples/use_commands.py` demonstrating `hello` and `user` commands.
+- Validation to ensure the provided package path is a valid Python package (checks for `__init__.py`).
+- `CommandRegistryHelper` implemented with a singleton pattern using `__new__` and a `get_instance()` class method; backward compatibility kept via the global `COMMAND_REGISTRY`.
 
 ### Changed
 
-- Translated all Portuguese content in `commands_factory.py` to English including docstrings, comments, print messages, and error messages
-- Enhanced documentation with detailed Google Style docstrings including Args, Returns, and Raises sections
-- Improved code consistency by following English-only coding standards
-- Implemented singleton pattern in `CommandRegistryHelper` using `__new__` method
-- Added `get_instance()` class method for obtaining singleton registry instance
-- Enhanced documentation with detailed docstrings explaining singleton behavior
-- Maintained backward compatibility with global `COMMAND_REGISTRY` variable
+- Translated CLI source code, comments, and user-facing messages to English.
+- Expanded and standardized Google-style docstrings (Args, Returns, Raises) across the codebase.
+- Codebase standardized to English-only coding standards and improved overall consistency.
 
 ### Fixed
 
--
+- No user-facing bug fixes in this finalization release.
 
-### Identified Issues (Unresolved)
+### Notes
+
+- This release finalizes documentation, examples, and internal refactors completed during the 1.0.0 development cycle. See `[1.0.0] - 2025-09-05` for the initial release notes.
 
 ## [1.0.0] - 2025-09-05
 
