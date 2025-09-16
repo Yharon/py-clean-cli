@@ -1,45 +1,50 @@
 # py-clean-cli
 
+[![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 py-clean-cli is a lightweight framework for building well-documented, decorator-based Python command-line interfaces (CLIs).
 
-What's included
-
-- Core library to register and run commands using the `@command` decorator.
-- Argument modeling using `dataclasses` and `simple_parsing` via `CommandArgsModel`.
-- Helpers for command discovery and registration (`CommandRegistryHelper`) implemented with a singleton pattern and backward-compatible global registry.
-- Runnable examples in `scripts/examples/use_commands.py` demonstrating basic and advanced command usage.
-- Google-style docstrings and English-only code/comments to support automated documentation and consistent style.
-
-Quick start
-
-1. Run the hello example:
-
-Badges
-
-- CI: [placeholder]
-- PyPI: [placeholder]
-
-Overview
+## Overview
 
 py-clean-cli provides a simple structure to create Python CLIs using decorators to register commands and dataclass-based argument models. The library favors clear documentation and example-driven usage.
 
-Key features
+## Key Features
 
-- Decorator-based command registration (`@command`).
-- Dataclass models for command arguments (`CommandArgsModel`) with `simple_parsing` support.
-- Helpers for discovery and registration of commands across a package.
-- Singleton `CommandRegistryHelper` with backward-compatible global `COMMAND_REGISTRY`.
-- Runnable examples included in `scripts/examples/`.
+- **Decorator-based command registration** (`@command`)
+- **Dataclass models** for command arguments (`CommandArgsModel`) with `simple_parsing` support
+- **Command discovery and registration** helpers across packages
+- **Singleton pattern** `CommandRegistryHelper` with backward-compatible global `COMMAND_REGISTRY`
+- **Google-style docstrings** and English-only code for automated documentation
+- **Runnable examples** included in `scripts/examples/`
 
-Installation
+## What's Included
+
+- Core library to register and run commands using the `@command` decorator
+- Argument modeling using `dataclasses` and `simple_parsing` via `CommandArgsModel`
+- Helpers for command discovery and registration (`CommandRegistryHelper`) implemented with a singleton pattern and backward-compatible global registry
+- Runnable examples in `scripts/examples/use_commands.py` demonstrating basic and advanced command usage
+- Google-style docstrings and English-only code/comments to support automated documentation and consistent style
+
+## Installation
 
 This project is provided as source. To install in editable mode (dev):
 
 ```powershell
-python -m venv .venv; .\.venv\Scripts\Activate.ps1; pip install -e .
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -e ".[dev]"
 ```
 
-Usage
+## Quick Start
+
+Run the hello example:
+
+```powershell
+python -m scripts.examples.use_commands hello --name "World" --greet "Hi" --upper
+```
+
+## Usage
 
 Run the packaged examples module to explore available commands:
 
@@ -47,15 +52,15 @@ Run the packaged examples module to explore available commands:
 python -m scripts.examples.use_commands --help
 ```
 
-Examples
+## Examples
 
-- Greet someone:
+### Greet someone:
 
 ```powershell
 python -m scripts.examples.use_commands hello --name "World" --greet "Hi" --upper
 ```
 
-- User create (dry-run):
+### User create (dry-run):
 
 ```powershell
 python -m scripts.examples.use_commands user create --email "test@example.com" --username "testuser" --dry_run

@@ -6,6 +6,9 @@ env
 # .vscode settings
 .vscode/settings.json
 
+# .claude settings
+.claude/settings.local.json
+
 # ChromaDB local database and files
 .configs/memorys_ia_db/
 
