@@ -8,7 +8,7 @@ from simple_parsing import ArgumentParser
 from py_clean_cli.helpers import COMMAND_REGISTRY
 from py_clean_cli.models import CommandArgsModel
 
-LOGGER = getLogger(__name__)
+LOGGER = getLogger()
 
 
 @dataclass
@@ -47,8 +47,7 @@ class CommandsManager:
         parser_id = id(parser)
         if parser_id not in cls._instances:
             LOGGER.debug(
-                "Creating new CommandsManager instance for parser ID: "
-                f"{parser_id}"
+                "Creating new CommandsManager instance for parser ID: " f"{parser_id}"
             )
             instance = super().__new__(cls)
             cls._instances[parser_id] = instance

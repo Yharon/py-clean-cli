@@ -2,7 +2,7 @@ from logging import getLogger
 
 from py_clean_cli.helpers import COMMAND_REGISTRY
 
-LOGGER = getLogger(__name__)
+LOGGER = getLogger()
 
 
 def command(name: str, help_text: str = ""):

@@ -7,24 +7,19 @@ Sets up a standardized .gitignore in .config folder:
 4. Configures git to use this location
 """
 from pathlib import Path
-from sys import path as sys_path
 from dataclasses import dataclass, field
 from subprocess import run as subprocess_run
 from typing import Iterator, Any, Optional, Self
 from textwrap import dedent
-from logging import DEBUG
-
-PROJECT_ROOT = str(Path.cwd())
-if PROJECT_ROOT not in sys_path:
-    sys_path.insert(0, PROJECT_ROOT)
 
 from simple_parsing import field
 
 from py_clean_cli import command, CommandArgsModel
-from scripts import LOGGER
+from scripts import LOGGER, PROJECT_ROOT
 
 
-GITIGNORE_TEMPLATE = dedent("""
+GITIGNORE_TEMPLATE = dedent(
+    """
     # environment variables
     .env
     env
@@ -32,6 +27,9 @@ GITIGNORE_TEMPLATE = dedent("""
 
     # .vscode settings
     .vscode/settings.json
+
+    # IA settings
+    .claude/settings.local.json
 
     # ChromaDB local database and files
     .configs/memorys_ia_db/
@@ -56,16 +54,16 @@ GITIGNORE_TEMPLATE = dedent("""
 
     # Mock files
     docs/.mocks/
-
-""")
+"""
+)
 
 
 @dataclass
 class GitignoreSetup:
     """
-    Class to setup .gitignore in .config directory
+    Class to setup .gitignore in .configs directory
     """
-    config_dir: str = field(default=".config", init=True)
+    config_dir: str = field(default=".configs", init=True)
     old_gitignore: str = field(default=".gitignore", init=True)
     _new_gitignore: str = field(init=False)
 
@@ -99,9 +97,9 @@ class GitignoreSetup:
             return f"Created new {self._new_gitignore_path}"
 
     def update_git_config(self) -> str:
-        LOGGER.debug("Updating git configuration to use .config/.gitignore")
-        subprocess_run(["git", "config", "core.excludesFile", ".config/.gitignore"], check=True)
-        return "Git is now configured to use .config/.gitignore"
+        LOGGER.debug(f"Updating git configuration to use {self._new_gitignore_path}")
+        subprocess_run(["git", "config", "core.excludesFile", str(self._new_gitignore_path)], check=True)
+        return f"Git is now configured to use {self._new_gitignore_path}"
 
     def setup_all(self):
         self.remove_old_gitignore()
@@ -148,15 +146,15 @@ class GitignoreSetup:
                     yield f"Error in {attr_name}: {str(e)}"
 
 
-@command(name="gitignore", help_text="Setup .gitignore in .config directory")
+@command(name="gitignore", help_text="Setup .gitignore in custom directory")
 @dataclass
 class SetupGitignoreCommand(CommandArgsModel):
     """
-    Command to setup .gitignore in .config directory
+    Command to setup .gitignore in custom directory
     """
 
     config_dir: str = field(
-        default=".config",
+        default=".configs",
         help="Directory to store the .gitignore file",
         alias=["-c"],
     )
@@ -165,10 +163,8 @@ class SetupGitignoreCommand(CommandArgsModel):
         """
         Execute the gitignore setup command.
         """
-        if self.verbose:
-            LOGGER.setLevel(DEBUG)
         setup = GitignoreSetup(self.config_dir)
         for result in GitignoreSetup.auto_execute_all_methods(setup):
             LOGGER.debug(result)
 
-        LOGGER.info("Done! Git is now configured to use .config/.gitignore")
+        LOGGER.info(f"Done! Git is now configured to use {self.config_dir}/.gitignore")

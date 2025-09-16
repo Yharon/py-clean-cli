@@ -1,3 +1,4 @@
+
 # environment variables
 .env
 env
@@ -6,7 +7,7 @@ env
 # .vscode settings
 .vscode/settings.json
 
-# .claude settings
+# IA settings
 .claude/settings.local.json
 
 # ChromaDB local database and files

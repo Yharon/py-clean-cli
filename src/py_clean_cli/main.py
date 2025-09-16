@@ -1,7 +1,7 @@
 from pathlib import Path
 from sys import argv as sys_argv
 from typing import Optional
-from logging import getLogger, DEBUG, Logger
+from logging import getLogger, DEBUG
 from inspect import getmodule, getfile, stack
 
 from simple_parsing import ArgumentParser
@@ -10,7 +10,10 @@ from py_clean_cli.helpers import discover_commands
 from py_clean_cli.services import CommandsManager
 
 
-def package_cli(package_path: Optional[str] = None, logger: Optional[Logger] = None) -> None:
+LOGGER = getLogger()
+
+
+def package_cli(package_path: Optional[str] = None) -> None:
     """
     Set up the CLI for the package.
 
@@ -21,12 +24,10 @@ def package_cli(package_path: Optional[str] = None, logger: Optional[Logger] = N
     Raises:
         ValueError: If the package path cannot be determined or is not a valid directory.
     """
-    if logger is None:
-        logger = getLogger(__name__)
 
     if '--verbose' in sys_argv:
-        logger.setLevel(DEBUG)
-        logger.debug("`--verbose` mode enabled. Log level set to DEBUG.")
+        LOGGER.setLevel(DEBUG)
+        LOGGER.debug("`--verbose` mode enabled. Log level set to DEBUG.")
 
     if package_path is None:
         # Get the frame of the caller (1 level up in the stack)
@@ -42,18 +43,18 @@ def package_cli(package_path: Optional[str] = None, logger: Optional[Logger] = N
 
     # Log information about the package
     module_name = Path(package_path).name
-    logger.debug(f"Called from module: {module_name}")
-    logger.debug(f"Module file path: {package_path}")
+    LOGGER.debug(f"Called from module: {module_name}")
+    LOGGER.debug(f"Module file path: {package_path}")
 
     # Check if it's a valid Python package (has __init__.py)
     init_file = Path(package_path) / "__init__.py"
     if not init_file.exists():
-        logger.warning(
+        LOGGER.warning(
             f"The directory '{package_path}' does not contain __init__.py file. "
             "It may not be a valid Python package."
         )
     else:
-        logger.debug(
+        LOGGER.debug(
             f"Confirmed: '{package_path}' is a valid Python package with __init__.py file."
         )
 
