@@ -33,7 +33,7 @@ class HelloCommand(CommandArgsModel):
 
     This example shows:
     - Basic command registration using the @command decorator
-    - Simple argument handling with field() decorator
+    - Simple argument handling with field() decorator"
     - Basic execution logic in the exec() method
     """
 

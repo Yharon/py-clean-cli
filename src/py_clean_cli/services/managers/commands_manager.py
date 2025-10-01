@@ -1,4 +1,3 @@
-from functools import lru_cache
 from dataclasses import dataclass, field as dc_field
 from logging import getLogger, Logger
 from typing import Any, Dict, Type, ClassVar, Set
@@ -33,13 +32,18 @@ class CommandsManager:
     subparsers: Any = None
     commands: Dict[str, Type[CommandArgsModel]] = dc_field(default_factory=dict)
     _registered_parsers: Set[str] = dc_field(default_factory=set, init=False)
+    _initialized: bool = dc_field(default=False, init=False)
 
     def __post_init__(self):
         """
         Initialize the subparsers after instance creation.
+
+        Only initializes if not already initialized (for singleton pattern).
         """
-        self.subparsers = self.parser.add_subparsers(dest="command", required=True)
-        LOGGER.debug("Initialized subparsers for command handling")
+        if not self._initialized:
+            self.subparsers = self.parser.add_subparsers(dest="command", required=True)
+            self._initialized = True
+            LOGGER.debug("Initialized subparsers for command handling")
 
     def __new__(cls, parser: ArgumentParser):
         """
@@ -123,10 +127,9 @@ class CommandsManager:
         LOGGER.debug(f"Total registered commands: {len(self._registered_parsers)}")
         return self
 
-    @lru_cache(maxsize=32)
     def get_command_class(self, command_name: str) -> Type[CommandArgsModel]:
         """
-        Retrieve a command class by name (with cache).
+        Retrieve a command class by name.
 
         Args:
             command_name (str): The name of the command to retrieve.

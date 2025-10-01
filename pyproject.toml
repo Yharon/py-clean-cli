@@ -31,6 +31,11 @@ dev = [
   "black>=23.0.0",
   "poethepoet>=0.24.0",
 ]
+test = [
+  "pytest>=7.4.0",
+  "pytest-cov>=4.1.0",
+  "pytest-mock>=3.11.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/Yharon/py-clean-cli"
@@ -44,6 +49,38 @@ include = ["py_clean_cli*"]
 [tool.setuptools.dynamic]
 version = {attr = "py_clean_cli.__version__"}
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+  "--strict-markers",
+  "--strict-config",
+  "-ra",
+  "--cov=src/py_clean_cli",
+  "--cov-report=term-missing",
+  "--cov-report=html",
+]
+
+[tool.coverage.run]
+source = ["src/py_clean_cli"]
+omit = ["*/tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+  "@abstractmethod",
+]
+
 [tool.poe.tasks]
 # poe cli
 cli.script = "scripts"
+# poe test
+test.cmd = "pytest"
+test.help = "Run all tests with coverage"
