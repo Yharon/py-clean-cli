@@ -1,3 +1,3 @@
-from .commamd_model import CommandArgsModel
+from .command_model import CommandArgsModel
 
 __all__ = ["CommandArgsModel"]

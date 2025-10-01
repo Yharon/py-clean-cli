@@ -1,7 +1,7 @@
 from pathlib import Path
 from sys import argv as sys_argv
 from typing import Optional
-from logging import getLogger, DEBUG
+from logging import getLogger, DEBUG, Logger
 from inspect import getmodule, getfile, stack
 
 from simple_parsing import ArgumentParser
@@ -9,8 +9,8 @@ from simple_parsing import ArgumentParser
 from py_clean_cli.helpers import discover_commands
 from py_clean_cli.services import CommandsManager
 
-
-LOGGER = getLogger()
+# 💡 NOTE: Using logger instance (not direct imports) for better namespace control in library code
+LOGGER: Logger = getLogger(__name__)
 
 
 def package_cli(package_path: Optional[str] = None) -> None:

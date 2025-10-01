@@ -10,13 +10,17 @@ Usage:
     python -m scripts.examples.use_commands user create --email "test@example.com" --username "testuser" --verbose
 """
 
+# Standard library
 from dataclasses import dataclass
 from typing import Optional
 
-from simple_parsing import field
-
+# Own libraries
 from py_clean_cli import command, CommandArgsModel
 
+# Third-party
+from simple_parsing import field
+
+# Local modules
 from scripts import LOGGER
 
 

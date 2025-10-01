@@ -1,15 +1,15 @@
 from sys import path as sys_path
 from pathlib import Path
-from typing import Optional, List
+from typing import List
 from inspect import getmodule, getfile
 from importlib import import_module
 from importlib.util import spec_from_file_location, module_from_spec
-from logging import getLogger
+from logging import getLogger, Logger, exception as log_exception
 
-# Initialize logger
-LOGGER = getLogger(__name__)
+# 💡 NOTE: Using logger instance (not direct imports) for better namespace control in library code
+LOGGER: Logger = getLogger(__name__)
 
-PROJECT_ROOT = str(Path.cwd())
+PROJECT_ROOT: str = str(Path.cwd())
 if PROJECT_ROOT not in sys_path:
     sys_path.insert(0, PROJECT_ROOT)
 
@@ -70,7 +70,7 @@ def _import_module_from_file(file: Path) -> None:
     except (ImportError, ValueError) as e:
         LOGGER.warning(f"Error importing module {file.name}: {e}")
 
-        # Try alternative import using spec
+        # ⚠️ Try alternative import using spec
         try:
             module_name = file.stem
             spec = spec_from_file_location(module_name, file)
@@ -82,5 +82,6 @@ def _import_module_from_file(file: Path) -> None:
             else:
                 LOGGER.warning(f"Could not create spec for {file}")
 
-        except Exception as e2:
-            LOGGER.error(f"Failed to import {file.name} using spec: {e2}")
+        except Exception:
+            # 💡 NOTE: Using exception() for automatic stacktrace (following CLAUDE.md guidelines)
+            log_exception(f"Failed to import {file.name} using spec")

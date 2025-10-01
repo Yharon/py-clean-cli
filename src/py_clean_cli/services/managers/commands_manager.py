@@ -1,6 +1,6 @@
 from functools import lru_cache
 from dataclasses import dataclass, field as dc_field
-from logging import getLogger
+from logging import getLogger, Logger
 from typing import Any, Dict, Type, ClassVar, Set
 
 from simple_parsing import ArgumentParser
@@ -8,7 +8,8 @@ from simple_parsing import ArgumentParser
 from py_clean_cli.helpers import COMMAND_REGISTRY
 from py_clean_cli.models import CommandArgsModel
 
-LOGGER = getLogger()
+# 💡 NOTE: Using logger instance (not direct imports) for better namespace control in library code
+LOGGER: Logger = getLogger(__name__)
 
 
 @dataclass
